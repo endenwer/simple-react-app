@@ -8,8 +8,7 @@ import logo from './logo.svg';
 import './App.css';
 
 class MapModal extends Reflux.Component {
-  constructor (props)
-  {
+  constructor (props) {
     super(props);
     this.store = Store;
   }
@@ -47,8 +46,7 @@ class MapModal extends Reflux.Component {
 }
 
 class ItemForm extends Reflux.Component {
-  constructor (props)
-  {
+  constructor (props) {
     super(props);
     this.store = Store;
     this.state = {showForm: false,
@@ -189,8 +187,7 @@ class Item extends Component {
 }
 
 class App extends Reflux.Component {
-  constructor (props)
-  {
+  constructor (props) {
     super(props);
     this.store = Store;
   }
