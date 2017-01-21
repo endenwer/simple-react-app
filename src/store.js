@@ -7,8 +7,24 @@ class Store extends Reflux.Store {
   constructor() {
     super();
     this.listenables = Actions;
-    this.state = {items: [], mapPoint: []};
+    this.state = {mapPoint: []};
     this.itemCounter = 0;
+    this.initItems();
+  }
+
+  initItems() {
+    let self = this;
+    let loadedItems = localStorage.getItem("items");
+    console.log(loadedItems);
+    if (loadedItems) {
+      this.state.items = JSON.parse(loadedItems).map(function(item){
+        item.id = self.itemCounter++;
+        return item;
+      });
+    }
+    else {
+      this.state.items = [];
+    }
   }
 
   onAddItem(data) {
