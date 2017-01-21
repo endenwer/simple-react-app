@@ -114,7 +114,6 @@ class Item extends Component {
   }
 
   editItem() {
-
     let data = {
       name: this.refs.name.value,
       description: this.refs.description.value,
@@ -204,11 +203,7 @@ class App extends Reflux.Component {
           { this.state.items.map(function(item){
               return (
                 <Item
-                  name={item.name}
-                  description={item.description}
-                  address={item.address}
-                  id={item.id}
-                  isEditing={item.isEditing}
+                  {...item}
                   key={item.id}/>
               );
             })}

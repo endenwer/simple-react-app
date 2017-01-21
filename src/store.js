@@ -61,7 +61,6 @@ class Store extends Reflux.Store {
   }
 
   onLoadMap(id) {
-    let self = this;
     let item = this.getItemById(id);
     axios.get("https://geocode-maps.yandex.ru/1.x/", {
       params: {
@@ -69,22 +68,26 @@ class Store extends Reflux.Store {
         geocode: item.address
       }
     })
-         .then(function (response) {
-           let geoObject = response.data.response.GeoObjectCollection.featureMember[0];
+         .then(Actions.loadMap.completed)
+         .catch(Actions.loadMap.failed);
+  }
 
-           if (geoObject) {
-             let point = geoObject.GeoObject.Point.pos.split(" ").reverse().map(
-               function(point){ return parseFloat(point); }
-             );
-             self.setState({isLoadedMap: true, mapPoint: point});
-           }
-           else {
-             self.setState({isLoadedMap: true, isMapError: true});
-           }
-         })
-         .catch(function (error) {
-           self.setState({isLoadedMap: true, isMapError: true});
-         });
+  onLoadMapCompleted(response) {
+    let geoObject = response.data.response.GeoObjectCollection.featureMember[0];
+
+    if (geoObject) {
+      let point = geoObject.GeoObject.Point.pos.split(" ").reverse().map(
+        function(point){ return parseFloat(point); }
+      );
+      this.setState({isLoadedMap: true, mapPoint: point});
+    }
+    else {
+      this.setState({isLoadedMap: true, isMapError: true});
+    }
+  }
+
+  onLoadMapFsiled() {
+    this.setState({isLoadedMap: true, isMapError: true});
   }
 
   getItemById(id) {
